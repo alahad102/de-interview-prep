@@ -19,8 +19,30 @@ FROM
 -- Q2: Now redo Q1, but this time make sure tied salaries share the
 -- same rank AND leave a gap afterward (e.g. 1, 1, 3, 4).
 
+SELECT
+    employee_id,
+    first_name,
+    last_name,
+    department_id,
+    salary,
+    hire_date,
+    RANK() over(partition by department_id order by salary desc) as row_rank
+FROM
+    employees;
+
 -- Q3: Redo Q1 again, but this time tied salaries should share the
 -- same rank with NO gap afterward (e.g. 1, 1, 2, 3).
+
+SELECT
+    employee_id,
+    first_name,
+    last_name,
+    department_id,
+    salary,
+    hire_date,
+    DENSE_RANK() over(partition by department_id order by salary desc) as row_rank
+FROM
+    employees;
 
 -- Q4: For each employee, show what percentile "bucket" they fall
 -- into if you split the ENTIRE company (ignore department) into
