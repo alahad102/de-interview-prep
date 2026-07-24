@@ -48,6 +48,12 @@ FROM
 -- into if you split the ENTIRE company (ignore department) into
 -- 4 equal-sized groups by salary.
 
+SELECT
+    *,
+    NTILE(4) over(order by salary desc) as bucket
+FROM
+    employees;
+
 -- Q5: Return the top 2 highest-paid employees in each department.
 -- If there's a tie for 2nd place, only one of them should show up
 -- (pick either one).
