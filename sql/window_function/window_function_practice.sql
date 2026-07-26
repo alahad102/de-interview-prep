@@ -125,8 +125,15 @@ FROM
     monthly_revenue
 ORDER BY revenue_id;
 
+
 -- Q9: For each region, calculate the dollar CHANGE in revenue from
 -- the previous month (this month's revenue minus last month's).
+
+SELECT
+    *,
+    (revenue - LAG(revenue) OVER(PARTITION BY region ORDER BY revenue_month)) as revenue_change
+FROM
+    monthly_revenue
 
 -- Q10: For each region, show a running total of revenue from
 -- January through the current month.
