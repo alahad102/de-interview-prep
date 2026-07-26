@@ -59,10 +59,28 @@ FROM
 -- (pick either one).
 
 
+SELECT employee_id, first_name, last_name, department_id, salary, hire_date
+FROM 
+    (SELECT
+        e.*,
+        ROW_NUMBER() OVER(PARTITION BY department_id ORDER BY salary DESC) as rw,
+        RANK() OVER(PARTITION BY department_id ORDER BY salary DESC) as rnk,
+        DENSE_RANK() OVER(PARTITION BY department_id ORDER BY salary DESC) as drnk
+    FROM
+        employees as e) as t1
+WHERE (t1.rw = t1.rnk AND t1.drnk < 3);
+
+
 SELECT
-    e.*
+    employee_id, first_name, last_name, department_id, salary, hire_date
 FROM
-    employees as e;
+    (SELECT
+        *,
+        DENSE_RANK() OVER (PARTITION BY department_id ORDER BY salary DESC) AS salary_tier,
+        ROW_NUMBER() OVER (PARTITION BY department_id, salary ORDER BY employee_id) AS tie_breaker
+    FROM
+        employees) AS e1
+WHERE salary_tier <= 2 AND tie_breaker = 1;
 
 -- Q6: For every employee, add a column showing the highest salary
 -- in their department -- repeated on every row, not just the top one.
