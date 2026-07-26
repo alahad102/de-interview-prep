@@ -119,7 +119,11 @@ FROM
 -- Q8: For each region, show each month's revenue next to the
 -- PREVIOUS month's revenue in the same row.
 
-
+SELECT *,
+       LAG(revenue,1,'N/A') OVER(PARTITION BY region) as Previous_revenue
+FROM
+    monthly_revenue
+ORDER BY revenue_id;
 
 -- Q9: For each region, calculate the dollar CHANGE in revenue from
 -- the previous month (this month's revenue minus last month's).
