@@ -80,7 +80,8 @@ FROM
         ROW_NUMBER() OVER (PARTITION BY department_id, salary ORDER BY employee_id) AS tie_breaker
     FROM
         employees) AS e1
-WHERE salary_tier <= 2 AND tie_breaker = 1;
+WHERE salary_tier <= 2 AND tie_breaker = 1
+ORDER BY employee_id;
 
 -- Q6: For every employee, add a column showing the highest salary
 -- in their department -- repeated on every row, not just the top one.
@@ -100,6 +101,8 @@ JOIN (
     GROUP BY department_id
 ) d ON e.department_id = d.department_id;
 
+
+
 -- Q7: For every employee, add a column showing the LOWEST salary
 -- in their department, repeated on every row.
 
@@ -115,6 +118,8 @@ FROM
 
 -- Q8: For each region, show each month's revenue next to the
 -- PREVIOUS month's revenue in the same row.
+
+
 
 -- Q9: For each region, calculate the dollar CHANGE in revenue from
 -- the previous month (this month's revenue minus last month's).
