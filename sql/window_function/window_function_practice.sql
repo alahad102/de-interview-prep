@@ -60,26 +60,9 @@ FROM
 
 
 SELECT
-    employee_id, first_name, last_name, department_id, salary, hire_date
+    e.*
 FROM
-    (SELECT
-        *,
-        ROW_NUMBER() OVER(PARTITION BY department_id ORDER BY salary DESC) AS r_no
-    FROM
-        employees) AS e1
-WHERE r_no <= 2;
-
-
-SELECT
-    employee_id, first_name, last_name, department_id, salary, hire_date
-FROM
-    (SELECT
-        *,
-        DENSE_RANK() OVER (PARTITION BY department_id ORDER BY salary DESC) AS salary_tier,
-        ROW_NUMBER() OVER (PARTITION BY department_id, salary ORDER BY employee_id) AS tie_breaker
-    FROM
-        employees) AS e1
-WHERE salary_tier <= 2 AND tie_breaker = 1;
+    employees as e;
 
 -- Q6: For every employee, add a column showing the highest salary
 -- in their department -- repeated on every row, not just the top one.
@@ -102,6 +85,11 @@ JOIN (
 -- Q7: For every employee, add a column showing the LOWEST salary
 -- in their department, repeated on every row.
 
+SELECT 
+    e.*,
+    min(salary) over(PARTITION BY department_id) as min_salary
+FROM
+    employees as e;
 
 -- ============================================================
 -- PART B: monthly_revenue table (offset + running aggregates)
