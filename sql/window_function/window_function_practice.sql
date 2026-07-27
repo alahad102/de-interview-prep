@@ -262,7 +262,21 @@ FROM
     ORDER BY department_id, hire_date) as t1
 order by department_id;
 
+-- alternate better approach
 
+SELECT
+    employee_id,
+    CONCAT(first_name, ' ', last_name) AS full_name,
+    department_id,
+    salary,
+    hire_date,
+    TIMESTAMPDIFF(YEAR, first_hire_date, hire_date) AS joining_after
+FROM
+    (SELECT
+        *,
+        FIRST_VALUE(hire_date) OVER (PARTITION BY department_id ORDER BY hire_date) AS first_hire_date
+    FROM employees) AS t1
+ORDER BY department_id;
 
 
 -- Q17: Find every employee who is the single highest-paid person
