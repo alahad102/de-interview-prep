@@ -220,6 +220,12 @@ ORDER BY customer_id, amount DESC;
 -- Q14: For each customer, show a running total of how much they've
 -- spent so far, ordered by order date.
 
+SELECT
+    o.*,
+    sum(amount) OVER(PARTITION BY customer_id ORDER BY order_date) as total_sum
+FROM
+    orders as o;
+
 -- Q15: For each customer, show how many orders they've placed in
 -- total (same number repeated on every row for that customer --
 -- don't use GROUP BY).
