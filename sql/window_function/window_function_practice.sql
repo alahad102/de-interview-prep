@@ -230,6 +230,12 @@ FROM
 -- total (same number repeated on every row for that customer --
 -- don't use GROUP BY).
 
+SELECT
+    o.*,
+    count(order_id) OVER(PARTITION BY customer_id) as total_order_placed
+FROM
+    orders as o;
+
 
 -- ============================================================
 -- PART D: capstone (mixing tables / patterns)
