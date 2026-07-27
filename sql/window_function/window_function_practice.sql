@@ -309,6 +309,6 @@ FROM
     FROM
         employees as e) as t1
 WHERE   
-    salary_rank < 2
+    salary_rank = 1
     AND
     tie_breaker = 1;
