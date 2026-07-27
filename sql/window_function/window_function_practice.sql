@@ -143,6 +143,17 @@ select m.*,
 from
     monthly_revenue as m;
 
+
+
+-- alternate way
+
+select m.*,
+    sum(revenue) over w as running_total_revenue
+from
+    monthly_revenue as m
+    
+window w as (PARTITION BY region ORDER BY revenue_month);
+
 -- Q11: For each region, calculate a 3-month moving average of
 -- revenue (current month + the 2 before it).
 
@@ -152,7 +163,7 @@ SELECT
     ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) as moving_avg
 FROM
     monthly_revenue as m;
-    
+
 -- Q12: For each region, show what fraction (as a %) each month's
 -- revenue is of that region's total 6-month revenue.
 
