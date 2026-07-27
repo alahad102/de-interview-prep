@@ -294,3 +294,21 @@ ORDER BY department_id;
 -- Q17: Find every employee who is the single highest-paid person
 -- in their department -- output just one row per department, no
 -- ties allowed in the output.
+
+SELECT
+    employee_id,
+    CONCAT(first_name, ' ', last_name) AS full_name,
+    department_id,
+    salary,
+    hire_date
+FROM
+    (SELECT
+        e.*,
+        DENSE_RANK() OVER(PARTITION BY department_id order by salary desc) as salary_rank,
+        row_number() OVER(PARTITION BY department_id, salary order by employee_id) as tie_breaker
+    FROM
+        employees as e) as t1
+WHERE   
+    salary_rank < 2
+    AND
+    tie_breaker = 1;
