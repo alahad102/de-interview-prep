@@ -209,7 +209,7 @@ FROM
     (SELECT
         *,
         DENSE_RANK() OVER(PARTITION BY customer_id ORDER BY amount desc) as amount_rank,
-        row_number() OVER(PARTITION BY customer_id, amount ORDER BY customer_id) as tie_breaker
+        row_number() OVER(PARTITION BY customer_id, amount ORDER BY order_id) as tie_breaker
     FROM
         orders) as t1
 WHERE 
