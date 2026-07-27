@@ -245,6 +245,26 @@ FROM
 -- in their department they were hired (i.e. compare their hire_date
 -- to the earliest hire_date in their own department).
 
+--my solution 
+
+SELECT
+    employee_id, 
+    concat(first_name,' ', last_name) as full_name,
+    department_id, 
+    salary, 
+    hire_date, (YEAR(hire_date) - first_employee_year) as joining_after
+FROM
+    (SELECT
+        *,
+        FIRST_VALUE(year(hire_date)) OVER(PARTITION BY department_id ORDER BY hire_date) as first_employee_year
+    FROM
+        employees
+    ORDER BY department_id, hire_date) as t1
+order by department_id;
+
+
+
+
 -- Q17: Find every employee who is the single highest-paid person
 -- in their department -- output just one row per department, no
 -- ties allowed in the output.
