@@ -181,11 +181,21 @@ FROM monthly_revenue AS m;
 
 SELECT 
     m.*,
-    round(revenue / sum(revenue) OVER(PARTITION BY region) * 100, 1) as region_sum
+    round(revenue / sum(revenue) OVER(PARTITION BY region) * 100, 1) as pct_of_region_total
 FROM
     monthly_revenue as m
 
-    
+
+--Alternate version
+
+SELECT 
+    m.*,
+    round(revenue / sum(revenue) OVER w * 100, 1) as pct_of_region_total
+FROM
+    monthly_revenue as m
+window w as (partition by region order by revenue_month rows BETWEEN unbounded PRECEDING and unbounded following)
+
+
 
 -- ============================================================
 -- PART C: orders table (bringing it together)
@@ -193,6 +203,19 @@ FROM
 
 -- Q13: Return each customer's 2 highest-value orders. Handle ties
 -- the same way Q5 did.
+
+SELECT order_id, customer_id, order_date, amount
+FROM
+    (SELECT
+        *,
+        DENSE_RANK() OVER(PARTITION BY customer_id ORDER BY amount desc) as amount_rank,
+        row_number() OVER(PARTITION BY customer_id, amount ORDER BY customer_id) as tie_breaker
+    FROM
+        orders) as t1
+WHERE 
+    (amount_rank <= 2 AND tie_breaker = 1)
+ORDER BY customer_id, amount DESC;
+
 
 -- Q14: For each customer, show a running total of how much they've
 -- spent so far, ordered by order date.
