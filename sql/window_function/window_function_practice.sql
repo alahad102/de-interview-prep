@@ -70,6 +70,8 @@ FROM
         employees as e) as t1
 WHERE (t1.rw = t1.rnk AND t1.drnk < 3);
 
+-- ALTERNATE
+
 
 SELECT
     employee_id, first_name, last_name, department_id, salary, hire_date
@@ -102,7 +104,6 @@ JOIN (
 ) d ON e.department_id = d.department_id;
 
 
-
 -- Q7: For every employee, add a column showing the LOWEST salary
 -- in their department, repeated on every row.
 
@@ -111,6 +112,8 @@ SELECT
     min(salary) over(PARTITION BY department_id) as min_salary
 FROM
     employees as e;
+
+    
 
 -- ============================================================
 -- PART B: monthly_revenue table (offset + running aggregates)
