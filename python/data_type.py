@@ -11,4 +11,7 @@ i = "" #string-blank
 j = " " #string - empty space
 
 print(d.upper())
+print(type(d))
+print(len(c))
+print(a.bit_length())
 
