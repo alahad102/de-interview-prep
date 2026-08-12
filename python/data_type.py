@@ -15,3 +15,30 @@ print(type(d))
 print(len(c))
 print(a.bit_length())
 
+#exercise
+
+age = '30'
+height = '6.0 feet'
+name = 'ahad'
+Student = True
+exp = None
+
+print(age)
+print(type(age))
+print(len(age))
+
+print(height)
+print(type(height))
+print(len(height))
+
+print(name)
+print(type(name))
+print(len(name))
+
+print(Student)
+print(type(Student))
+
+
+print(exp)
+print(type(exp))
+
