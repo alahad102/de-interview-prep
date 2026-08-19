@@ -158,5 +158,11 @@ text = "2026-feb-11"
 # print(text.find('feb'))
 
 phone = "+49-176-12345"
-print(phone.startswith("+49"))
-print("-" in phone)
+# print(phone.startswith("+49"))
+# print("-" in phone)
+
+country = "USA#$"
+# print(country.isalpha())
+
+phone = "0165453623.354abc"
+print(phone.isnumeric())
