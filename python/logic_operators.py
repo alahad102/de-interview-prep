@@ -48,8 +48,8 @@ b = [1,2,3]
 
 # problem 5
 
-is_admin = True
-is_moderator  = True
-is_banned = True
-is_verified = False
-print((is_admin or is_moderator) and (not is_banned or is_verified))
+# is_admin = True
+# is_moderator  = True
+# is_banned = True
+# is_verified = False
+# print((is_admin or is_moderator) and (not is_banned or is_verified))
