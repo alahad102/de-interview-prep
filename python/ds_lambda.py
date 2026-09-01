@@ -35,4 +35,4 @@ print(list(filter(lambda row: row[1] > 70, students)))
 
 print(list(filter(lambda row: row[0].startswith('M'), students)))
 
-students[0][1] > 70
+
